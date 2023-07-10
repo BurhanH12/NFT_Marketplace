@@ -8,7 +8,7 @@ import {
 } from "../../../components/ui/hover-card";
 
 const NFTCard = ({ nft }) => {
-  const ethValue = 1799.0; // Current value of ETH in USD
+  const ethValue = 1964.82; // Current value of ETH in USD
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
@@ -40,7 +40,7 @@ const NFTCard = ({ nft }) => {
               </p>
               <div className="flex items-center pt-2">
                 <span className="text-xs text-muted-foreground">
-                  Updated on 25 May 2023
+                  Updated on 5 July 2023
                 </span>
               </div>
             </div>

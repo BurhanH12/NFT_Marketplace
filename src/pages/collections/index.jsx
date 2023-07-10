@@ -23,7 +23,7 @@ const Collections = () => {
   let interval = useRef();
 
   const startTimer = () => {
-    const countdownDate = new Date('June 01 2023 00:00:00').getTime();
+    const countdownDate = new Date('July 01 2023 00:00:00').getTime();
 
     interval = setInterval(() => {
       const now = new Date().getTime();
@@ -56,7 +56,7 @@ const Collections = () => {
   
 
   return (
-    <div className="mt-[135px] mb-[100px]">
+    <div className="mt-[135px] mb-[100px] ">
       <div className=" mb-3 border-box">
           <section className="relative bg-white" style={{ backgroundImage: `url("./NFTs/legendary.jpg")`, backgroundPosition: "center", backgroundSize: "cover", backgroundRepeat: "no-repeat", height: "300px", width: "100%" }}>
           <section className="bg-black bg-opacity-10 flex flex-col items-center justify-center pb-7em w-full h-full">

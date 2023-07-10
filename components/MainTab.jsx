@@ -1,52 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Card from "./Card";
 import Link from "next/dist/client/link";
 
 const MainTabs = () => {
-  const nfts = [
-    {
-      id: 1,
-      title: 'Angry Agatsuma',
-      artist: 'Koyoharu Gotouge',
-      price: 170,
-      image: '/NFTs/trial.jpg',
-    },
-    {
-      id: 2,
-      title: "Rock'n Ride",
-      artist: 'Artist 2',
-      price: 95,
-      image: '/NFTs/trial3.jpg',
-    },
-    {
-      id: 2,
-      title: 'Toneless Inumaki',
-      artist: 'Gege Akutami',
-      price: 125,
-      image: '/NFTs/trial2.jpg',
-    },
-    {
-      id: 2,
-      title: 'Lonesome Titan',
-      artist: 'Hajime Isayama',
-      price: 480,
-      image: '/NFTs/eren2.jpg',
-    },
-    {
-      id: 2,
-      title: 'Anti-magic Brat',
-      artist: 'Yūki Tabata',
-      price: 300,
-      image: '/NFTs/asta2.png',
-    },
-    
-  ];
+  
+  const [nfts, setNFTs] = useState([]);
   const [activeTab, setActiveTab] = useState("buyers");
 
+  useEffect(() => {
+    // Fetch NFT data from the API and update the state
+    const fetchNFTs = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getNfts`);
+        const data = await response.json();
+        setNFTs(data);
+      } catch (error) {
+        console.error('Error fetching NFTs:', error);
+      }
+    };
+  
+    fetchNFTs();
+  }, []);
+  
+  // Move the conditional rendering of the loading state inside the useEffect hook
+  if (nfts.length === 0) {
+    return <div>Loading...</div>;
+  }
+  
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  
+
 
   return (
     <div className="max-w-[1400px] m-auto p-6">
@@ -70,7 +57,7 @@ const MainTabs = () => {
                 className={`tab-button inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  ${
                   activeTab === "buyers"
                     ? "bg-primary text-white"
-                    : "bg-gray-300 text-foreground shadow-sm"
+                    : "bg-purple-300 text-foreground shadow-sm"
                 }`}
                 tabIndex={activeTab === "buyers" ? "0" : "-1"}
                 data-orientation="horizontal"
@@ -89,7 +76,7 @@ const MainTabs = () => {
                 className={`tab-button inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  ${
                   activeTab === "sellers"
                     ? "bg-primary text-white"
-                    : "bg-gray-300 text-foreground shadow-sm"
+                    : "bg-purple-300 text-foreground shadow-sm"
                 }`}
                 tabIndex={activeTab === "sellers" ? "0" : "-1"}
                 data-orientation="horizontal"
@@ -112,7 +99,9 @@ const MainTabs = () => {
             <div>
               <div className="justify-center">
                 <div className="flex-col text-center">
-                  <h1 className="text-3xl">"Experience Art In A New Dimension"</h1>
+                  <h1 className="text-3xl">
+                    "Experience Art In A New Dimension"
+                  </h1>
                 </div>
                 <div className="flex-col text-center">
                   <div className="">
@@ -125,18 +114,20 @@ const MainTabs = () => {
               </div>
               <div className="mt-4">
                 <h1 className="text-2xl">Top Picks for Today</h1>
-              <div className="grid grid-cols-5 gap-4 mt-7">
-                {nfts.map((nft) => (
-                  <Card key={nft.id} nft={nft} />
-                ))}
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-7">
+                  {nfts.slice(0, 5).map((nft) => (
+                    <Card key={nft.id} nft={nft} />
+                  ))}
+                </div>
               </div>
             </div>
           )}
           {activeTab === "sellers" && (
             <div className="justify-center">
               <div className="flex-col text-center">
-                <h1 className="text-3xl">"Turn your Art into Digital Assets"</h1>
+                <h1 className="text-3xl">
+                  "Turn your Art into Digital Assets"
+                </h1>
               </div>
               <div className="flex-col text-center">
                 <div className="">
@@ -146,9 +137,9 @@ const MainTabs = () => {
                   </h2>
                 </div>
                 <div className="mt-5">
-                <Button>
-                  <Link href="/NFTsell">Create Your Own NFT</Link>
-                </Button>
+                  <Button>
+                    <Link href="/NFTsell">Create Your Own NFT</Link>
+                  </Button>
                 </div>
               </div>
             </div>

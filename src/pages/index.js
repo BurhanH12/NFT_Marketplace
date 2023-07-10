@@ -49,13 +49,13 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [currentIndex]);
 
-    // #f9287f as the ring colour
+  // #f9287f as the ring colour
   // #f9287f80 backgroud colour
   //checkout https://tailwindcss.com/docs/background-image#linear-gradients
   //add coloured drop shadow to cards
 
   return (
-    <div className="bg-[#f1f2f3]">
+    <div className="bg-gradient-to-r from-indigo-300 via-purple-200 to-pink-300">
       <div className="mt-[90px] group">
         <div className="max-w-[1400px] h-[660px] w-full m-auto pt-16 pb-4 px-4">
           <div
@@ -64,7 +64,7 @@ const Home = () => {
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}
-            className="w-full h-full rounded-2xl bg-center bg-cover duration-500"
+            className="w-full h-[400px] md:h-[580px] rounded-2xl bg-center bg-cover duration-500"
           ></div>
         </div>
         <div className="hidden group-hover:block absolute top-[70%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">

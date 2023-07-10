@@ -8,6 +8,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "A fiery thunderclap of rage and power.",
 
       },
       {
@@ -19,6 +20,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "A vibrant adventure of speed and sound.",
 
       },
       {
@@ -30,6 +32,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "A silent curse with a hidden voice.",
 
       },
       {
@@ -41,6 +44,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "A tragic hero with a monstrous fate.",
 
       },
       {
@@ -52,6 +56,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "The cursed child who defies fate with his sword",
 
       },
       {
@@ -63,6 +68,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "Soar high with these rare and powerful creatures.",
 
       },
       {
@@ -74,6 +80,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "Meet the happiest and squishiest friend you’ll ever have",
 
       },
       {
@@ -85,6 +92,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "A vibrant and agile reptile that loves to explore new heights.",
 
       },
       {
@@ -96,6 +104,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "The symbol of a decentralized and innovative future.",
 
       },
       {
@@ -107,6 +116,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "When a fiery dragon unleashes its wrath",
 
       },
       {
@@ -118,6 +128,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "",
 
       },
       {
@@ -129,6 +140,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "A rainbow of sound vibrations.",
 
       },
       {
@@ -140,6 +152,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "A symphony of colors harmonizing on a captivating canvas.",
 
       },
       {
@@ -151,6 +164,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "Whiskers that trace ancient tales of lunar legend.",
 
       },
       {
@@ -162,6 +176,7 @@ export const nfts = [
         owner: "0x1234...",
         views: 1200,
         favorites: 350,
+        description: "Two faces, two destinies, one choice",
 
       },
     // Add more NFT objects here...
@@ -177,6 +192,7 @@ export const nfts = [
       owner: "0x1234...",
       views: 1200,
       favorites: 350,
+      description: "",
     },
     {
       id: 2,
@@ -187,6 +203,7 @@ export const nfts = [
       owner: "0x1234...",
       views: 1200,
       favorites: 350,
+      description: "",
     },
     {
       id: 3,
@@ -197,6 +214,7 @@ export const nfts = [
       owner: "0x1234...",
       views: 1200,
       favorites: 350,
+      description: "In the depths, a dragon's grace ignites the flowing currents.",
     },
     {
       id: 4,
@@ -207,6 +225,7 @@ export const nfts = [
       owner: "0x1234...",
       views: 1200,
       favorites: 350,
+      description: " A mesmerizing journey through the fabric of reality",
     },
     {
       id: 5,
@@ -217,6 +236,7 @@ export const nfts = [
       owner: "0x1234...",
       views: 1200,
       favorites: 350,
+      description: "Where thoughts intertwine, spiraling through infinite possibilities",
     },
     {
       id: 6,
@@ -227,6 +247,7 @@ export const nfts = [
       owner: "0x1234...",
       views: 1200,
       favorites: 350,
+      description: "",
     },
     {
       id: 7,
@@ -237,6 +258,7 @@ export const nfts = [
       owner: "0x1234...",
       views: 1200,
       favorites: 350,
+      description: "",
     },
     {
       id: 8,
@@ -247,6 +269,7 @@ export const nfts = [
       owner: "0x1234...",
       views: 1200,
       favorites: 350,
+      description: "From humble roots, a radiant tree blossoms towards the heavens.",
     },
   ];
 
@@ -316,7 +339,8 @@ export const nfts = [
           image: '/yinyang.gif',
           owner: "0x1234...",
           views: 1200,
-          favorites: 35
+          favorites: 35,
+          description: "",
         },
         {
           id: 2,
@@ -325,7 +349,8 @@ export const nfts = [
           image: '/yellow.png',
           owner: "0x1234...",
           views: 1200,
-          favorites: 35
+          favorites: 35,
+          description: "",
         },
       ],
     },
@@ -342,7 +367,8 @@ export const nfts = [
           image: '/NFTs/apepixel.png',
           owner: "0x1234...",
           views: 1200,
-          favorites: 35
+          favorites: 35,
+          description: "",
         },
         {
           id: 4,
@@ -351,7 +377,8 @@ export const nfts = [
           image: '/NFTs/pixelspace.png',
           owner: "0x1234...",
           views: 1200,
-          favorites: 35
+          favorites: 35,
+          description: "",
         },
       ],
     },
@@ -369,6 +396,7 @@ export const nfts = [
             owner: "0x1234...",
             views: 1200,
             favorites: 350,
+            description: "",
           },
           {
             id: 6,
@@ -378,6 +406,7 @@ export const nfts = [
             owner: "0x1234...",
             views: 1200,
             favorites: 350,
+            description: "",
           },
         ],
       },

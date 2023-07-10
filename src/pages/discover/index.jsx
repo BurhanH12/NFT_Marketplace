@@ -1,49 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../../components/Card";
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
-import { nfts } from "../../../NFTMetadata/Nfts";
-import { gifs } from "../../../NFTMetadata/Nfts";
 
 const Discover = () => {
 
+  const [nfts, setNFTs] = useState([]);
+
+  useEffect(() => {
+    // Fetch NFT data from the API and update the state
+    const fetchNFTs = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getNfts`);
+        const data = await response.json();
+        setNFTs(data);
+      } catch (error) {
+        console.error('Error fetching NFTs:', error);
+      }
+    };
+
+    fetchNFTs();
+  }, []);
+
+  if (nfts.length === 0) {
+    return <div>Loading...</div>;
+  }
+  
+
   const shuffledNfts = [...nfts].sort(() => Math.random() - 0.5);
-  const shuffledGifs = [...gifs].sort(() => Math.random() - 0.5);
+  const shuffledNfts2 = [...nfts].sort(() => Math.random() - 0.5);
 
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 5,
+      partialVisibilityGutter: 0,
     },
     tablet: {
       breakpoint: { max: 1024, min: 640 },
       items: 4,
+      partialVisibilityGutter: 30,
     },
     mobile: {
       breakpoint: { max: 640, min: 0 },
       items: 1,
-    },
-  };
-
-  const gifresponsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 640 },
-      items: 4,
-    },
-    mobile: {
-      breakpoint: { max: 640, min: 0 },
-      items: 1,
+      partialVisibilityGutter: 20,
     },
   };
 
   return (
-    <div className="mt-[135px] mb-[100px]">
+    <div className="">
+    <div className="mt-[135px] mb-[100px] ">
       <div
-        className="min-h-[500px] bg-cover bg-center bg-no-repeat flex items-center justify-center"
+        className="min-h-[500px]  bg-cover bg-center bg-no-repeat flex items-center justify-center"
         style={{ backgroundImage: "url('/geometric.gif')" }}
       >
         <div className="text-center">
@@ -73,6 +82,7 @@ const Discover = () => {
           showDots={false}
           containerClass="carousel-container"
           itemClass="carousel-item mx-2"
+          partialVisible={true}
         >
           {shuffledNfts.map((nft) => (
             <Card key={nft.id} nft={nft} />
@@ -80,11 +90,11 @@ const Discover = () => {
         </Carousel>
       </div>
       <div className="mt-8 mx-5">
-        <h1 className="text-3xl">Trending GIF</h1>
+        <h1 className="text-3xl">Trending</h1>
       </div>
       <div className="mt-4 mx-5">
         <Carousel
-          responsive={gifresponsive}
+          responsive={responsive}
           infinite={true}
           arrows={true}
           additionalTransfrom={0}
@@ -98,11 +108,12 @@ const Discover = () => {
           containerClass="carousel-container"
           itemClass="carousel-item mx-2"
         >
-          {shuffledGifs.map((nft) => (
+          {shuffledNfts2.map((nft) => (
             <Card key={nft.id} nft={nft} />
           ))}
         </Carousel>
       </div>
+    </div>
     </div>
   );
 };
