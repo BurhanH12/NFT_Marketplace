@@ -1,5 +1,4 @@
 
-
 # NFT Marketplace
 
 A decentralized NFT marketplace application that allows users to buy, sell, and trade non-fungible tokens.
@@ -37,6 +36,7 @@ The application is built using [Next.js](https://nextjs.org/) for the frontend, 
 
 2. Install the dependencies.
 ```bash
+   cd nft-marketplace
    npm install
 ```
 
@@ -46,18 +46,20 @@ The application is built using [Next.js](https://nextjs.org/) for the frontend, 
 
 4. Run the development server.
 ```bash
-   npm run dev ( For Front-End )
-   npm run develop ( For STRAPI Back-End )
+   npm run dev
+   npm run serve
 ```
 
-## Acknowledgements
-Next.js
-React
-Tailwind CSS
-Strapi
-Stripe API
+## Usage
+
+1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+2. Connect your wallet to the application and explore the marketplace.
+   *Sign in or create an account.
+   *Connect your Ethereum wallet (e.g., MetaMask) to interact with NFTs.
+
+3. Browse NFTs, view their details, and perform actions such as buying, selling, or listing NFTs.
 
 ## License
 
 Remember to update the placeholders like `Project Name`, `Description`, `Features`, `Installation`, `Usage` `Contributing`, and `License` with the relevant information for your project. You can also add more sections or customize the formatting as needed.
-
