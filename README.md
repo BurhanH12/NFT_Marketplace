@@ -1,5 +1,4 @@
 
-
 # NFT Marketplace
 
 A decentralized NFT marketplace application that allows users to buy, sell, and trade non-fungible tokens.
@@ -64,4 +63,3 @@ The application is built using [Next.js](https://nextjs.org/) for the frontend, 
 ## License
 
 Remember to update the placeholders like `Project Name`, `Description`, `Features`, `Installation`, `Usage` `Contributing`, and `License` with the relevant information for your project. You can also add more sections or customize the formatting as needed.
-
