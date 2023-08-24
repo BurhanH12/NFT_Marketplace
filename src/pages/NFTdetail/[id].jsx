@@ -24,6 +24,7 @@ const NFTDetail = () => {
   const [newOwner, setNewOwner] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [newPrice, setNewPrice] = useState('');
+  const [newOffer, setNewOffer] = useState('');
 
 
   const fetchNFT = async () => {
@@ -203,6 +204,39 @@ const NFTDetail = () => {
     toggleDropdown();
   };
 
+  const createOffer = async (nftId, buyerAddress, offerPrice) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/offers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nftId, buyerAddress, offerPrice }),
+      });
+    
+      if (!response.ok) {
+        throw new Error('Failed to create offer');
+      }
+    
+      const data = await response.json();
+      console.log(data.message); // Offer created successfully
+      await toast.success('Offer Sent Successfully ', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    } catch (error) {
+      console.error('Error creating offer:', error);
+      // Handle the error
+    }
+  };
+  
+
 
   useEffect(() => {
     if (id) {
@@ -291,14 +325,18 @@ const NFTDetail = () => {
                     List NFT
                   </button>
                   {showDropdown && (
-                    <div>
+                    <div className='space-y-4'>
                       <input
                         type="text"
                         value={newPrice}
                         onChange={(e) => setNewPrice(e.target.value)}
                         placeholder="Enter new price"
+                        className="px-4 py-2 border border-gray-300 rounded-md text-base outline-none focus:border-blue-500"
+                        required
                       />
-                      <button onClick={handleProceed}>Proceed</button>
+                      <button 
+                      onClick={handleProceed}
+                      className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ml-2">Proceed</button>
                     </div>
                   )}
                 </div>
@@ -308,13 +346,38 @@ const NFTDetail = () => {
                 This NFT has been sold
               </div>
             ) : (
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded inline-flex items-center"
-                onClick={() => handleTransfer(id)}
-              >
-                <ShoppingCart className="mr-2" />
-                Buy Now
-              </button>
+              <div className="flex flex-col space-y-4">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 w-36 rounded inline-flex items-center"
+                  onClick={() => handleTransfer(id)}
+                >
+                  <ShoppingCart className="mr-2" />
+                  Buy Now
+                </button>
+                <button
+                  className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 w-28 rounded inline-flex items-center"
+                  onClick={toggleDropdown}
+                >
+                  Offer Now
+                </button>
+                {showDropdown && (
+                  <div className="flex flex-col space-y-4">
+                    <input
+                      type="text"
+                      value={newOffer}
+                      onChange={(e) => setNewOffer(e.target.value)}
+                      placeholder="Enter Your Offer"
+                      className="px-4 py-2 border border-gray-300 rounded-md text-base outline-none focus:border-blue-500"
+                    />
+                    <button
+                      onClick={() => createOffer(id, newOwner, newOffer)}
+                      className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                    >
+                      Proceed
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
             <ToastContainer
               position="top-right"
@@ -350,3 +413,4 @@ const NFTDetail = () => {
 };
 
 export default NFTDetail;
+

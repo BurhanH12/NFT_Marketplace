@@ -26,13 +26,14 @@ import {
 import { Label } from '@radix-ui/react-dropdown-menu';
 import { Input } from './ui/input';
 import axios from 'axios';
-
+import WalletConnect from "@walletconnect/web3-provider";
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 
 
 
 const Navbar = () => {
 
-  const [account, setAccount] = useState("");
+  const [account, setAccount] = useState([]);
   const [balance, setBalance] = useState('');
   const [sign, setSign] = useState("");
   const [user, setUser] = useState(null);
@@ -50,20 +51,43 @@ const Navbar = () => {
     }
   };
 
-  let web3Modal;
+  const providerOptions = {
+    binancechainwallet: {
+      package: true,
+    },
+    walletconnect: {
+      package: WalletConnect, // required
+      options: {
+        infuraId:  '74ea3e73497e40838cdd414da3c5133d'// required
+      }
+    },
+
+    coinbasewallet: {
+      package: CoinbaseWalletSDK, // Required
+      options: {
+        appName: "Coinbase", // Required
+        infuraId: '74ea3e73497e40838cdd414da3c5133d', // Required
+        chainId: 4, //4 for Rinkeby, 1 for mainnet (default)
+      },
+    },
+  };
+
+  // let web3Modal;
   let provider;
   
   //To connect MetaMask Wallet
   async function connect() {
-    web3Modal = new Web3Modal({
+    const web3Modal = new Web3Modal({
       network: 'testnet',
-      cacheProvider: 'false'
+      cacheProvider: false,
+      providerOptions: providerOptions
     });
     provider = await web3Modal.connect();
     console.log("Provider : ", provider)
     const web3 = new Web3(provider);
   
-     const address = await web3.eth.getAccounts();
+    const addresses = await web3.eth.getAccounts();
+    const address = addresses[0];
     setAccount(address);
     // Store the address in local storage
     localStorage.setItem('address', address);
@@ -91,11 +115,11 @@ const Navbar = () => {
   
 //To get the current user's name by address
 const getCurrentUser = async (address) => {
-  console.log("outgoing",address[0]);
+  console.log("outgoing",address);
   try {
     const response = await axios.get('http://localhost:3001/api/currentUser', {
       params: {
-        address: address[0],
+        address: address,
       },
     });
 
@@ -140,6 +164,7 @@ const disconnectWallet = async () => {
   console.log("Disconnect...")
   // await web3Modal.clearCachedProvider();
   provider = null;
+  // await web3Modal.clearCachedProvider();
   // web3Modal.clearCachedProvider();
   setUser(null);
   localStorage.removeItem('address');
@@ -148,8 +173,9 @@ const disconnectWallet = async () => {
 
 //To format the address in the wallet tab
 const formatAddress = (address) => {
-  if (address && address.length > 0) {
-    const visibleChars = address[0].substr(0, 7);
+  if (address) {
+    const addressString = String(address);
+    const visibleChars = addressString.substr(0, 7);
     return visibleChars + "...";
   }
   return '';

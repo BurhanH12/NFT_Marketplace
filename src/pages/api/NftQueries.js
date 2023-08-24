@@ -116,10 +116,92 @@ const getNFTs = () => {
       throw new Error('Failed to update NFT sold status: ', error);
     }
   };
+
+  //Offer Queries
+  const createOffer = async (nftId, buyerAddress, offerPrice) => {
+    try {
+      const query = {
+        text: 'INSERT INTO offers (nftid, buyer_address, offer_price) VALUES ($1, $2, $3)',
+        values: [nftId, buyerAddress, offerPrice],
+      };
+  
+      await pool.query(query);
+    } catch (error) {
+      throw new Error('Failed to create offer: ' + error);
+    }
+  };
+
+  const getOffersForNFT = async (nftId) => {
+    try {
+      const query = {
+        text: `
+          SELECT offers.nftid, nft.title, offers.buyer_address, offers.offer_price, offers.status, offers.created_at
+          FROM offers
+          JOIN nft ON offers.nftid = nft.nftid
+          WHERE offers.nftid = $1;
+        `,
+        values: [nftId],
+      };
+  
+      const result = await pool.query(query);
+      return result.rows;
+    } catch (error) {
+      throw new Error('Failed to get offers for NFT: ', error);
+    }
+  };
+
+  const acceptOffer = async (nftId, buyerAddress) => {
+    try {
+      const query = {
+        text: 'UPDATE offers SET status = 1 WHERE nftid = $1 AND buyer_address = $2',
+        values: [nftId, buyerAddress],
+      };
+  
+      await pool.query(query);
+    } catch (error) {
+      throw new Error('Failed to accept offer: ', error);
+    }
+  };
+
+  const getOffersbyBuyer = async (buyerAddress) => {
+    try {
+      // console.log({buyerAddress});
+      const query = {
+        text: `
+          SELECT offers.nftid, nft.title, offers.buyer_address, offers.offer_price, offers.status, offers.created_at
+          FROM offers
+          JOIN nft ON offers.nftid = nft.nftid
+          WHERE offers.buyer_address = $1;
+        `,
+        values: [buyerAddress],
+      };
+  
+      const result = await pool.query(query);
+      return result.rows;
+    } catch (error) {
+      throw new Error('Failed to get offers from Buyer: ', error);
+    }
+  };
+
+  const deleteOffer = async (buyerAddress, nftId) => {
+    try {
+      const query = {
+        text: 'DELETE FROM offers WHERE buyer_address = $1 AND nftid = $2;',
+        values: [buyerAddress, nftId],
+      };
+    
+      await pool.query(query);
+    } catch (error) {
+      throw new Error('Failed to delete offer: ', error);
+    }
+  };
+  
+  
+  
   
   
   
   
 
-  module.exports = { getNFTs, createNFT, getNFTById, getCreatorNameById, getLastNFTId, updateNFTOwner, getNFTsByOwner, updateNFTSoldStatus };
+  module.exports = { getNFTs, createNFT, getNFTById, getCreatorNameById, getLastNFTId, updateNFTOwner, getNFTsByOwner, updateNFTSoldStatus, createOffer, getOffersForNFT, acceptOffer, getOffersbyBuyer, deleteOffer };
   

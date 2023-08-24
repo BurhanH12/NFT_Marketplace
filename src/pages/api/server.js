@@ -1,11 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const { getUsers, createUser, currentUser } = require('./userQueries')
-const { getNFTs, createNFT, getNFTById, getCreatorNameById, getLastNFTId, updateNFTOwner, getNFTsByOwner, updateNFTSoldStatus } = require('./NftQueries')
+const { getNFTs, createNFT, getNFTById, getCreatorNameById, getLastNFTId, updateNFTOwner, getNFTsByOwner, updateNFTSoldStatus, createOffer, getOffersForNFT, acceptOffer, getOffersbyBuyer, deleteOffer } = require('./NftQueries')
 
 const app = express()
 app.use(bodyParser.json());
 const port = 3001
+
+
+//User APIs
 
 //API to get all the users
 app.get('/api/getUsers', async (req, res) => {
@@ -17,6 +20,37 @@ app.get('/api/getUsers', async (req, res) => {
     res.status(500).json({ error: 'An error occurred' });
   }
 });
+
+//API to get the current logged in user
+app.get('/api/currentUser', async (req, res) => {
+  const { address } = req.query;
+  try {
+    const user = await currentUser(address);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error retrieving user:', error);
+
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+//API to create a new user
+app.post('/api/createUser', async (req, res) => {
+  try {
+    const { address, name, email } = req.body;
+    const user = await createUser({ address, name, email }); 
+    res.status(201).json(user);
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+//NFT APIs
 
 //API to get all the NFTs
 app.get('/api/getNfts', async (req, res) => {
@@ -63,36 +97,6 @@ app.get('/api/nfts/:id/creator', async (req, res) => {
     }
   } catch (error) {
     console.error('Error retrieving creator:', error);
-    res.status(500).json({ error: 'An error occurred' });
-  }
-});
-
-
-//API to get the current logged in user
-app.get('/api/currentUser', async (req, res) => {
-  const { address } = req.query;
-  try {
-    const user = await currentUser(address);
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ error: 'User not found' });
-    }
-  } catch (error) {
-    console.error('Error retrieving user:', error);
-
-    res.status(500).json({ error: 'An error occurred' });
-  }
-});
-
-//API to create a new user
-app.post('/api/createUser', async (req, res) => {
-  try {
-    const { address, name, email } = req.body;
-    const user = await createUser({ address, name, email }); 
-    res.status(201).json(user);
-  } catch (error) {
-    console.error('Error creating user:', error);
     res.status(500).json({ error: 'An error occurred' });
   }
 });
@@ -148,7 +152,7 @@ app.get('/api/nft/ownedBy/:address', async (req, res) => {
   }
 });
 
-// API endpoint to update the sold status and price of an NFT
+// API to update the sold status and price of an NFT
 app.put('/api/updnft/:id/sold', async (req, res) => {
   const { id } = req.params;
   const { price } = req.body;
@@ -163,7 +167,72 @@ app.put('/api/updnft/:id/sold', async (req, res) => {
 });
 
 
+//Offer APIs
 
+// API to create an offer
+app.post('/api/offers', async (req, res) => {
+  const { nftId, buyerAddress, offerPrice } = req.body;
+
+  try {
+    await createOffer(nftId, buyerAddress, offerPrice);
+    res.json({ message: 'Offer created successfully' });
+  } catch (error) {
+    console.error('Error creating offer:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+//API that gets all the offers for an NFT
+app.get('/api/nfts/:id/offers', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const offers = await getOffersForNFT(id);
+    res.json(offers);
+  } catch (error) {
+    console.error('Error fetching offers for NFT:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+//API to accept an offer
+app.put('/api/nfts/:nftid/offers/:buyeraddress/accept', async (req, res) => {
+  const { nftid, buyeraddress } = req.params;
+
+  try {
+    await acceptOffer(nftid, buyeraddress);
+    res.json({ message: 'Offer accepted successfully' });
+  } catch (error) {
+    console.error('Error accepting offer:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+// API that gets all the NFTs a buyer has offered for
+app.get('/api/nft/buyeroffers/:buyeraddress', async (req, res) => {
+  const { buyeraddress } = req.params;
+
+  try {
+    const offers = await getOffersbyBuyer(buyeraddress);
+    res.json(offers);
+  } catch (error) {
+    console.error('Error fetching offers for NFT:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+//API to delete the offer based on Buyer and NFT Id
+app.delete('/api/deloffers/:buyeraddress/:nftid', async (req, res) => {
+  const { buyeraddress, nftid } = req.params;
+  
+  try {
+    await deleteOffer(buyeraddress, nftid);
+    res.json({ message: 'Offer deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting offer:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
 
 
 
